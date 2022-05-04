@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
 
@@ -10,7 +11,7 @@ const loginSchema = Yup.object().shape({
     .email("Invalid email format")
     .required("Email is  required"),
   password: Yup.string().required("Password is required"),
-});
+})
 
 // Login component  
 const LoginForm = () => {
@@ -18,7 +19,9 @@ const LoginForm = () => {
   const initialCredentials = {
     email: "",
     password: "",
-  };
+  }
+
+  const navigate = useNavigate()
 
   return (
     <div>
@@ -31,11 +34,13 @@ const LoginForm = () => {
         onSubmit={async (values) => {
 
           login(values.email, values.password)
-            .then((response: AxiosResponse) => {
+            .then(async(response: AxiosResponse) => {
 
               if (response.status === 200) {
                 if (response.data.token) {
-                  sessionStorage.setItem('sessionToken', response.data.token)
+                  // Guardamos el token en el localStorage para poder usarlo en cualquier momento
+                  await sessionStorage.setItem('sessionToken', response.data.token)
+                  navigate('/')
                 } else {
                   throw new Error("Error generating Login Token")
                 }
