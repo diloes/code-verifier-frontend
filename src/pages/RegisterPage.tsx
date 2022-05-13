@@ -1,11 +1,12 @@
 import React from 'react'
 import RegisterForm from '../components/forms/RegisterForm'
+import RegisterMaterial from '../components/forms/RegisterMaterial'
 
 const RegisterPage = () => {
   return (
     <div>
-      <h1>Register Page</h1>
-      <RegisterForm />
+      {/* <RegisterForm /> */}
+      <RegisterMaterial />
     </div>
   )
 }
